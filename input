@@ -1,0 +1,6 @@
+project(
+    group_by (
+        join( Studenti, Esami, \small\texttt{S.matricola}=\texttt{E.matricola as nEsami})
+        , {nome, cognome} ,{count(*)}
+    )
+, {S.nome, S.cognome, count(*)})
