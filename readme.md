@@ -19,4 +19,4 @@ Get a nice result by running the following command, where `2` is the tree width:
 python3 parser.py input 2
 ```
 
-insert pic here
+![image](https://github.com/mell-o-tron/RelationalAlgebraGenerator/blob/main/preview.png)
