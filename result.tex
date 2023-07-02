@@ -2,15 +2,31 @@
     \usepackage{tikz}
     \usepackage{amsfonts}
     \begin{document}
-    \begin{tikzpicture}\node (node) at (0, -1){$\pi_{\small\texttt{S.nome},\small\texttt{ S.cognome},\small\texttt{count(*)}}$};
-\node (node0) at (0, -2){$_{\{\small\texttt{nome},\small\texttt{cognome}\}}\gamma_{\{\small\texttt{count(*)}\}}$};
-\node (node00) at (0, -3){$\Join_{ \small\texttt{S.matricola}=\texttt{E.matricola as nEsami}}$};
-\node (node000) at (-0.6666666666666666, -4){Studenti};
-\node (node001) at (0.6666666666666666, -4){Esami};
+    \begin{tikzpicture}
+    \newcommand{\lpar}{(}
+    \newcommand{\rpar}{)}\node (node) at (0, -1){$\pi_{NomeConvenzione,SUM(NumeroPersone) \,\,AS\,\,TotalePersone}$};
+\node (node0) at (0, -2){$\sigma_{ SUM \lpar NumeroPersone\rpar > 20
+}$};
+\node (node00) at (0, -3){$_{\{NomeConvenzione\}}\gamma_{\{SUM(NumeroPersone)\}}$};
+\node (node000) at (0, -4){$\Join_{ CorseConvenzionate.CodPrenotazione = c.CodPrenotazione
+                }$};
+\node (node0000) at (-4.5, -5){$\Join_{IDCliente = IDConvenzionato
+                    }$};
+\node (node00000) at (-8.1, -6){    ClientiConvenzionati};
+\node (node00001) at (-0.8999999999999999, -6){CorseConvenzionate
+                    };
+\node (node0001) at (4.5, -5){$\sigma_{ c.DataInizio > '2021-01-01'
+                    }$};
+\node (node00010) at (4.5, -6){Corse c
+                    };
 \draw(node) -- (node0);
 \draw(node0) -- (node00);
 \draw(node00) -- (node000);
-\draw(node00) -- (node001);
+\draw(node000) -- (node0000);
+\draw(node000) -- (node0001);
+\draw(node0000) -- (node00000);
+\draw(node0000) -- (node00001);
+\draw(node0001) -- (node00010);
 \end{tikzpicture}
 
 \end{document}

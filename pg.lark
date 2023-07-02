@@ -1,10 +1,12 @@
 PROJECT         : "project"
 FILTER          : "filter"
 JOIN            : "join"
-ATTR            : /(?!(project|filter)\b)([A-Za-z0-9.]|[*]|[(]|[)]|\s)+/
-TABLE           : /(?!(project|filter)\b)[A-Za-z0-9.]+/
+ATTR            : /(?!(project|filter)\b)([A-Za-z0-9.]|[*]|[(]|[)]|[\\]|\s)+/
+TABLE           : /(?!(project|filter)\b)([A-Za-z0-9.]|[\s])+/
 GROUPBY         : "group_by"
-COND            : /(?!(project|filter)\b)([A-Za-z0-9.]|<|>|=|\\|\s|\*|{|})+/
+ORDER_BY        : "order_by"
+DISTINCT        : "distinct"
+COND            : /(?!(project|filter)\b)([A-Za-z0-9.]|<|>|=|\\|\s|\*|{|}|'|-)+/
 
 attrs_or_funs   : "{" ATTR ("," ATTR)* "}"
 project         : PROJECT "(" expr "," attrs_or_funs ")"
@@ -13,9 +15,10 @@ filter          : FILTER "(" expr "," COND ")"
 join            : JOIN "(" expr "," expr "," COND ")"
 
 group_by        : GROUPBY "(" expr "," attrs_or_funs "," attrs_or_funs ")"
-
+order_by        : ORDER_BY "(" expr "," attrs_or_funs ")"
+distinct        : DISTINCT "(" expr ")"
 table           : TABLE
-expr            : table | project | filter | join | group_by
+expr            : table | project | filter | join | group_by | order_by | distinct
 
 start           : expr
 

@@ -39,10 +39,25 @@ def get_nodes(syntax_tree, nodes, edges, node_name, ypos, xpos, width):
             attributes = kidz[2].children           # bypass attrs_or_funs
             attr_str = ""
             for a in attributes:
-                attr_str += "\\small\\texttt{" + str(a) + "},"
+                attr_str +=  str(a) + ","
             attr_str = attr_str[:len(attr_str) - 1]
             # add project
             nodes.append ((node_name, "$\\pi_{" + attr_str + "}$", ypos, xpos))
+            # add the edge leading to the child
+            edges.append((node_name, node_name + "0"))
+
+            get_nodes(kidz[1], nodes, edges, node_name + "0", ypos - 1, xpos, width)
+
+        elif syntax_tree.data == "order_by":
+            kidz = syntax_tree.children
+
+            attributes = kidz[2].children           # bypass attrs_or_funs
+            attr_str = ""
+            for a in attributes:
+                attr_str +=  str(a) + ","
+            attr_str = attr_str[:len(attr_str) - 1]
+            # add project
+            nodes.append ((node_name, "$\\tau_{" + attr_str + "}$", ypos, xpos))
             # add the edge leading to the child
             edges.append((node_name, node_name + "0"))
 
@@ -78,18 +93,18 @@ def get_nodes(syntax_tree, nodes, edges, node_name, ypos, xpos, width):
             attributes = kidz[2].children       # bypass attrs_or_funs
             attr_str = ""
             for a in attributes:
-                attr_str += "\\small\\texttt{" + str(a) + "},"
+                attr_str +=  str(a) + ","
             attr_str = attr_str[:len(attr_str) - 1]
 
             functions = kidz[3].children        # bypass attrs_or_funs
             fun_str = ""
             for f in functions:
-                fun_str += "\\small\\texttt{" + str(f) + "},"
+                fun_str +=  str(f) + ","
             fun_str = fun_str[:len(fun_str) - 1]
 
             # add group_by
             nodes.append ((node_name, "$_{\{" + attr_str + "\}}\\gamma_{\{" + fun_str + "\}}$", ypos, xpos))
-            # add the edge leading to the children
+            # add the edge leading to child
             edges.append((node_name, node_name + "0"))
 
 
@@ -99,6 +114,16 @@ def get_nodes(syntax_tree, nodes, edges, node_name, ypos, xpos, width):
         elif syntax_tree.data == "table":
             name = syntax_tree.children[0]
             nodes.append ((node_name, str(name), ypos, xpos))
+
+        elif syntax_tree.data == "distinct":
+            kidz = syntax_tree.children
+            # add distinct
+            nodes.append ((node_name, "$\\delta$", ypos, xpos))
+            # add the edge leading to child
+            edges.append((node_name, node_name + "0"))
+
+
+            get_nodes(kidz[1], nodes, edges, node_name + "0", ypos - 1, xpos, width)
 
 def main():
     input_file = ""
@@ -142,7 +167,9 @@ def main():
     \\usepackage{tikz}
     \\usepackage{amsfonts}
     \\begin{document}
-    \\begin{tikzpicture}'''
+    \\begin{tikzpicture}
+    \\newcommand{\\lpar}{(}
+    \\newcommand{\\rpar}{)}'''
 
     footer = "\\end{tikzpicture}\n\n\\end{document}\n"
 
