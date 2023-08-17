@@ -166,6 +166,7 @@ def main():
     header = '''\\documentclass{standalone}
     \\usepackage{tikz}
     \\usepackage{amsfonts}
+    \\usepackage{cmbright}
     \\begin{document}
     \\begin{tikzpicture}
     \\newcommand{\\lpar}{(}
