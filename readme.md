@@ -38,10 +38,10 @@ project (
 , {NomeConvenzione, SUM(NumeroPersone) \,\,AS\,\, TotalePersone})
 ```
 
-Get a nice result by running the following command, where `2` is the tree width:
+Get a nice result by running the following command, where `10` is the tree width:
 
 ```
-python3 parser.py input 2
+python3 parser.py input 10
 ```
 
 ![pic](https://github.com/mell-o-tron/RelationalAlgebraGenerator/blob/main/preview.png)
